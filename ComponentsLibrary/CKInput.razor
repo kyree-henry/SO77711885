@@ -1,0 +1,41 @@
+@using System.Reflection;
+@using System.ComponentModel.DataAnnotations
+@using BlazorComponentUtilities
+@inherits Microsoft.AspNetCore.Components.Forms.InputText
+
+<div class="@ColSize">
+    <div class="mb-3">
+        <label for="@Id" class="form-label">@LabelText</label>
+        <div class="@(!string.IsNullOrEmpty(AdornmentIcon) ? "input-group" : "")">
+            @if (!string.IsNullOrEmpty(AdornmentIcon) && AlignAdornment is Alignment.Left)
+            {
+                <span class="input-group-text" id="addon-@Id"><i class="@AdornmentIcon"></i></span>
+            }
+            <input id="@Id" @attributes="@AdditionalAttributes"
+                   class="@_inputClasses" type="@_type" required="@IsRequired"
+                   @onfocus="@(() => ShowError =true)"
+                   @bind="@CurrentValue" placeholder="@PlaceHolder" />
+            @if (!string.IsNullOrEmpty(AdornmentIcon) && AlignAdornment is Alignment.Right)
+            {
+                <span class="input-group-text" id="addon-@Id"><i class="@AdornmentIcon"></i></span>
+            }
+        </div>
+
+        @if (!string.IsNullOrEmpty(Description))
+        {
+            <small>@Description</small>
+        }
+
+        @if (ShowError)
+        {
+            <div class="invalid-feedback">@EditContext.GetValidationMessages(FieldIdentifier).FirstOrDefault()</div>
+        }
+
+        @if (CssClass.Contains("modified") && !EditContext.GetValidationMessages(FieldIdentifier).Any() && !string.IsNullOrEmpty(SuccessMessage))
+        {
+            <div class="valid-feedback">@SuccessMessage</div>
+        }
+
+    </div>
+</div>
+

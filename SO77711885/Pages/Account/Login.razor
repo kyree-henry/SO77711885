@@ -1,0 +1,45 @@
+﻿@page "/login"
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Web
+@using ComponentsLibrary
+@using System.ComponentModel.DataAnnotations
+@inject NavigationManager _navigationManager
+
+<PageTitle>Login</PageTitle>
+
+<h3>Login!</h3>
+
+<EditForm Model="@_model" FormName="login" OnValidSubmit="SubmitAsync">
+    <DataAnnotationsValidator />
+
+    <Library.AuthInput @bind-Value="@_model.Email" LabelText="User Name" PlaceHolder="Enter your user name" />
+
+    <CKInput @bind-Value="@_model.Password" TextFieldType="TextFieldType.Password" 
+             LabelText="Password" PlaceHolder="***********" />
+
+             <button type="submit">Login</button>
+</EditForm>
+
+<div class="bg-dark text-white m-2 p-2">
+    <pre>User Name: @_model.Email</pre>
+</div>
+
+@code {
+    private Model _model = new();
+
+    public class Model {
+        [Required]
+        [EmailAddress]
+        public string? Email { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string? Password { get; set; }
+
+    }
+
+    private async Task SubmitAsync()
+    {
+        _navigationManager.NavigateTo("/");
+    }
+}

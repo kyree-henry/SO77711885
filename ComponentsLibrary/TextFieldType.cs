@@ -1,4 +1,4 @@
-﻿namespace Library;
+﻿namespace ComponentsLibrary;
 
 public enum TextFieldType
 {
